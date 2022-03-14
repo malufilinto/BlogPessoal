@@ -19,25 +19,40 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "tb_usuario")
 public class Usuario {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@NotNull(message = "Insira o nome!")
 	private String nome;
-	
-	@Size(max = 5000,
-	message = "O link da foto deve ser inferior a  5000 caracteres")
+
+	@Size(max = 5000, message = "O link da foto deve ser inferior a  5000 caractéres")
 	private String foto;
-	
+
 	@NotNull(message = "Insira o Usuário!")
 	@Email(message = "Insira um email válido!")
 	private String usuario;
-	
+
 	@NotBlank(message = "A senha é obrigatória!")
 	@Size(min = 4, message = "A Senha deve ter no mínimo 4 caracteres")
 	private String senha;
-	
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("usuario")
+	private List<Postagem> postagems;
+
+	public Usuario(Long id, String nome, String foto, String usuario, String senha) {
+		this.id = id;
+		this.nome = nome;
+		this.foto = foto;
+		this.usuario = usuario;
+		this.senha = senha;
+	}
+
+	public Usuario() {
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -70,6 +85,14 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	public List<Postagem> getPostagems() {
+		return postagems;
+	}
+
+	public void setPostagems(List<Postagem> postagems) {
+		this.postagems = postagems;
+	}
+
 	public List<Postagem> getPostagem() {
 		return postagem;
 	}
@@ -85,9 +108,8 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
-	
-	
+
 	public Long getId() {
-	return id;
+		return id;
 	}
 }

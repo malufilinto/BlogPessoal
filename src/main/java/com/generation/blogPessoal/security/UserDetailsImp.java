@@ -11,43 +11,47 @@ public class UserDetailsImp implements UserDetails{
 private static final long serialVersionUID =1L;
 
 private String userName;
-
 private String password;
-
 private List<GrantedAuthority> authorities;
 
 public UserDetailsImp (Usuario user){
 this.userName = user.getUsuario();
 this.password = user.getSenha();
 }
-public UserDetailsImp (){}
 
 @Override
 public Collection<? extends GrantedAuthority> getAuthorities() {
-return null;
+	return authorities;
 }
+
 @Override
 public String getPassword() {
-return password;
+	return password;
 }
+
 @Override
 public String getUsername() {
-return userName;
+	return userName;
 }
+
 @Override
 public boolean isAccountNonExpired() {
-return true;
+	return true;
 }
+
 @Override
 public boolean isAccountNonLocked() {
-return true;
+	return true;
 }
+
 @Override
 public boolean isCredentialsNonExpired() {
-return true;
+	return true;
 }
+
 @Override
 public boolean isEnabled() {
-return true;
+	return true;
 }
+
 }

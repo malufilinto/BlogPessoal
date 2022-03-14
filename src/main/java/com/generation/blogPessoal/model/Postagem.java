@@ -1,17 +1,16 @@
 package com.generation.blogPessoal.model;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,24 +22,24 @@ public class Postagem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToOne
-	@JsonIgnoreProperties("postagem")
-	private Usuario usuario;
-	
-	@NotNull
-	@Size(min = 5, max = 100)
+	@NotBlank(message = "Insira um título!")
+	@Size(min = 5, max = 100, message = "O título deve conter, no mínimo 5 e no mamixo 100 caractéres")
 	private String titulo;
 
-	@NotNull
-	@Size(min = 10, max = 500)
+	@NotBlank(message = "Insira o texto!")
+	@Size(min = 5, max = 100, message = "O texto deve conter, no mínimo 10 e no mamixo 1000 caractéres")
 	private String texto;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date date = new java.sql.Date(System.currentTimeMillis());
+	@UpdateTimestamp
+	private LocalDate data;
 
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Usuario usuario;
 
 	public long getId() {
 		return id;
@@ -54,8 +53,8 @@ public class Postagem {
 		return titulo;
 	}
 
-	public void setTitulo(String título) {
-		this.titulo = título;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getTexto() {
@@ -66,12 +65,12 @@ public class Postagem {
 		this.texto = texto;
 	}
 
-	public Date getDate() {
-		return date;
+	public LocalDate getData() {
+		return data;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setData(LocalDate data) {
+		this.data = data;
 	}
 
 	public Tema getTema() {
@@ -82,5 +81,12 @@ public class Postagem {
 		this.tema = tema;
 	}
 
-}
+	public Usuario getUsuario() {
+		return usuario;
+	}
 
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+}
